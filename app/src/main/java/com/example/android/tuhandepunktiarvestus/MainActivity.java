@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                                         // get user input and set it to result
                                         updateScores(promptsView);
                                         updatePreviousRoundTable();
-                                        // updateWarnings();
+                                        updateWarnings();
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -95,8 +95,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateWarnings() {
+        int i = 1;
         for (Player player : players) {
-            String identifierString = player.getName().toLowerCase() + "Name";
+            String identifierString = "player_" + i + "_name";
             int identifier = getResources().getIdentifier(identifierString, "id", getPackageName());
             TextView nameCell = findViewById(identifier);
             if (player.getZeroPointRounds() == 2) {
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 nameCell.setBackgroundColor(Color.WHITE);
             }
+            i++;
         }
 
     }
@@ -116,16 +118,29 @@ public class MainActivity extends AppCompatActivity {
             for (int j = 1; j <= players.size(); j++) {
                 if (i >= 0) {
                     String playerRowRoundScoreString = "player_" + j + "_round_score_" + row;
-                    String playerRowTotalScoreAfterRoundString = "player_" + j + "total_after_round" + row;
+                    String playerRowTotalScoreAfterRoundString = "player_" + j + "_total_after_round_" + row;
 
                     int playerRowRoundScore = getResources().getIdentifier(playerRowRoundScoreString, "id", getPackageName());
                     int playerRowTotalScoreAfterRound = getResources().getIdentifier(playerRowTotalScoreAfterRoundString, "id", getPackageName());
 
                     TextView playerRowRoundScoreTableCell = findViewById(playerRowRoundScore);
-
                     TextView playerRowTotalScoreAfterRoundTableCell = findViewById(playerRowTotalScoreAfterRound);
-                    playerRowRoundScoreTableCell.setText(rounds.get(i).getScore(j-1));
-                    // TODO How to get score at round? STore totalscore somewhere? playerRowTotalScoreAfterRoundTableCell.setText(players.get(j-1).getName());
+
+                    int roundScore = rounds.get(i).getRoundScore(j - 1);
+
+                    String roundScoreAsString = rounds.get(i).getRoundScoreAsString(j - 1);
+
+                    if (roundScore < 0) {
+                        playerRowRoundScoreTableCell.setText(roundScoreAsString);
+                        playerRowRoundScoreTableCell.setTextColor(Color.RED);
+                    } else if (roundScore > 0) {
+                        playerRowRoundScoreTableCell.setText(String.format("+%s", roundScoreAsString));
+                        playerRowRoundScoreTableCell.setTextColor(0xFF00A800);
+                    } else {
+                        playerRowRoundScoreTableCell.setText(roundScoreAsString);
+                    }
+
+                    playerRowTotalScoreAfterRoundTableCell.setText(rounds.get(i).getTotalScoreAfterRound(j - 1));
                 }
             }
             row++;
@@ -142,7 +157,9 @@ public class MainActivity extends AppCompatActivity {
                     .findViewById(playerScores[i]);
             int playerScore = getRoundScore(userInput);
             players.get(i).updateScore(playerScore);
-            round.setScore(i, playerScore);
+            round.setRoundScore(i, playerScore);
+            round.setTotalScoreAfterRound(i, players.get(i).getTotalScore());
+
         }
         rounds.add(round);
 
@@ -154,6 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int getRoundScore(EditText userInput) {
         String userInputString = userInput.getText().toString();
-        return userInputString.isEmpty() ? 0 : Integer.parseInt(userInputString);
+        return userInputString.isEmpty() || "-".equals(userInputString) ? 0 : Integer.parseInt(userInputString);
     }
 }

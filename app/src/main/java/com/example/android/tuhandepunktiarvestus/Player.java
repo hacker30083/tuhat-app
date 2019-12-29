@@ -14,9 +14,23 @@ public class Player {
     }
 
     void updateScore(int roundScore) {
-        this.totalScore = totalScore + roundScore;
+
+        int score = totalScore + roundScore;
+
+        if (score > 880 && totalScore < 880) {
+            score = 880;
+        } else if (totalScore == 880) {
+            if (score < 1000 && score > 880) {
+                score = 880;
+            } else if (score >= 1000) {
+                score = 1000;
+            }
+        }
+
+        this.totalScore = score;
         playerRoundScores.add(roundScore);
-        if(roundScore == 0) {
+
+        if (roundScore == 0) {
             zeroPointRounds++;
         } else {
             zeroPointRounds = 0;
@@ -33,5 +47,9 @@ public class Player {
 
     String getName() {
         return name;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
     }
 }

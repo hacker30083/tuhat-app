@@ -1,29 +1,40 @@
 package com.example.android.tuhandepunktiarvestus;
 
 class Round {
-    private int[] scores = new int[3];
-
-    Round(int scorePlayerOne, int scorePlayerTwo, int scorePlayerThree) {
-        this.scores[0] = scorePlayerOne;
-        this.scores[1] = scorePlayerTwo;
-        this.scores[2] = scorePlayerThree;
-    }
+    private int[] playerRoundScore = new int[3];
+    private int[] playerTotalScoreAfterRound = new int[3];
 
     Round() {
-        this.scores[0] = 0;
-        this.scores[1] = 0;
-        this.scores[2] = 0;
+        this.playerRoundScore[0] = 0;
+        this.playerRoundScore[1] = 0;
+        this.playerRoundScore[2] = 0;
+
+        this.playerTotalScoreAfterRound[0] = 0;
+        this.playerTotalScoreAfterRound[1] = 0;
+        this.playerTotalScoreAfterRound[2] = 0;
     }
 
-    void setScore(int player, int score) {
-        scores[player] = score;
+    void setRoundScore(int player, int score) {
+        playerRoundScore[player] = score;
     }
 
-    String getScore(int i) {
-        return getScoreString(scores[i]);
+    int getRoundScore(int i) {
+        return playerRoundScore[i];
+    }
+
+    String getRoundScoreAsString(int i) {
+        return getScoreString(playerRoundScore[i]);
     }
 
     private String getScoreString(int score) {
         return score != 0 ? Integer.toString(score) : "-";
+    }
+
+    void setTotalScoreAfterRound(int player, int score) {
+        playerTotalScoreAfterRound[player] = score;
+    }
+
+    String getTotalScoreAfterRound(int i) {
+        return getScoreString(playerTotalScoreAfterRound[i]);
     }
 }
