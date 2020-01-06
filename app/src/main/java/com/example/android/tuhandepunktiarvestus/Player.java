@@ -52,4 +52,16 @@ public class Player {
     public int getTotalScore() {
         return totalScore;
     }
+
+    public int getLastRoundScore() {
+        return playerRoundScores.get(playerRoundScores.size() - 1);
+    }
+
+    public String getLastRoundScoreAsString() {
+        if(getLastRoundScore() == 0) {
+            return "-";
+        } else {
+            return Integer.toString(playerRoundScores.get(playerRoundScores.size() - 1));
+        }
+    }
 }

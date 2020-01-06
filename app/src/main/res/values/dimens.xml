@@ -3,7 +3,7 @@
     <dimen name="label_width">120dp</dimen>
     <dimen name="label_height">46dp</dimen>
     <dimen name="defaultTextSize">24sp</dimen>
-    <dimen name="totalScoreSize">52sp</dimen>
+    <dimen name="totalScoreSize">42sp</dimen>
     <dimen name="scoreAfterRoundTextSize">24sp</dimen>
     <dimen name="roundScoreITooltipTextSize">18sp</dimen>
 </resources>

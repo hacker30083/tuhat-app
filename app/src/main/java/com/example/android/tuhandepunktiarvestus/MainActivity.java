@@ -6,11 +6,16 @@ import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         playerTwoScore = findViewById(R.id.playerTwoScore);
         playerThreeScore = findViewById(R.id.playerThreeScore);
 
+        final TableLayout historyTable = findViewById(R.id.historyTable);
 
         // add button listener
         button.setOnClickListener(new OnClickListener() {
@@ -60,23 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 final View promptsView = li.inflate(R.layout.prompts, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                        context);
-
-                // set prompts.xml to alert dialog builder
-                alertDialogBuilder.setView(promptsView);
-
-                // set dialog message
-                alertDialogBuilder
+                        context)
+                        .setView(promptsView)
                         .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // get user input and set it to result
-                                        updateScores(promptsView);
-                                        updatePreviousRoundTable();
-                                        updateWarnings();
-                                    }
-                                })
+                        .setPositiveButton("OK", null)
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -85,13 +78,91 @@ public class MainActivity extends AppCompatActivity {
                                 });
 
                 // create alert dialog
-                AlertDialog alertDialog = alertDialogBuilder.create();
+                final AlertDialog alertDialog = alertDialogBuilder.create();
 
-                // show it
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+
+                        Button button = (alertDialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                        button.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View view) {
+                                if (updateScores(promptsView)) {
+                                    drawTable(historyTable);
+                                    updateWarnings();
+
+                                    alertDialog.dismiss();
+                                }
+                            }
+                        });
+                    }
+                });
+
                 alertDialog.show();
 
             }
         });
+    }
+
+    private void drawTable(TableLayout historyTable) {
+        TableRow tableRow = new TableRow(MainActivity.this);
+
+        tableRow.setLayoutParams(
+                new TableRow.LayoutParams(
+                        TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.MATCH_PARENT)
+        );
+
+        tableRow.setWeightSum(3);
+
+        for (Player player : players) {
+            LinearLayout playerHistoryContent = new LinearLayout(tableRow.getContext());
+
+            playerHistoryContent.setOrientation(LinearLayout.HORIZONTAL);
+            playerHistoryContent.setWeightSum(2);
+            playerHistoryContent.setLayoutParams(
+                    new TableRow.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            1
+                    )
+            );
+
+
+            TextView scoreAfterRound = new TextView(MainActivity.this);
+            scoreAfterRound.setTextSize(20);
+            scoreAfterRound.setGravity(Gravity.END);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+            //params.setMargins(20, 10, 10, 10);
+            scoreAfterRound.setLayoutParams(params);
+
+            TextView roundScore = new TextView(MainActivity.this);
+            roundScore.setLayoutParams(params);
+            roundScore.setTextSize(12);
+            roundScore.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            scoreAfterRound.setText(player.getScoreAsString());
+
+            if (player.getLastRoundScore() < 0) {
+                roundScore.setText(player.getLastRoundScoreAsString());
+                roundScore.setTextColor(Color.RED);
+            } else if (player.getLastRoundScore() > 0) {
+                roundScore.setText(String.format("+%s", player.getLastRoundScoreAsString()));
+                roundScore.setTextColor(0xFF00A800);
+            } else {
+                roundScore.setText(player.getLastRoundScoreAsString());
+            }
+
+            playerHistoryContent.addView(scoreAfterRound);
+            playerHistoryContent.addView(roundScore);
+            tableRow.addView(playerHistoryContent);
+        }
+        historyTable.addView(tableRow);
+        ((ScrollView) findViewById(R.id.historyTableScrollable)).fullScroll(View.FOCUS_DOWN);
     }
 
     private void updateWarnings() {
@@ -110,45 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void updatePreviousRoundTable() {
-        int row = 1;
-
-        int roundsSize = rounds.size();
-        for (int i = roundsSize - 5; roundsSize > i; i++) {
-            for (int j = 1; j <= players.size(); j++) {
-                if (i >= 0) {
-                    String playerRowRoundScoreString = "player_" + j + "_round_score_" + row;
-                    String playerRowTotalScoreAfterRoundString = "player_" + j + "_total_after_round_" + row;
-
-                    int playerRowRoundScore = getResources().getIdentifier(playerRowRoundScoreString, "id", getPackageName());
-                    int playerRowTotalScoreAfterRound = getResources().getIdentifier(playerRowTotalScoreAfterRoundString, "id", getPackageName());
-
-                    TextView playerRowRoundScoreTableCell = findViewById(playerRowRoundScore);
-                    TextView playerRowTotalScoreAfterRoundTableCell = findViewById(playerRowTotalScoreAfterRound);
-
-                    int roundScore = rounds.get(i).getRoundScore(j - 1);
-
-                    String roundScoreAsString = rounds.get(i).getRoundScoreAsString(j - 1);
-
-                    if (roundScore < 0) {
-                        playerRowRoundScoreTableCell.setText(roundScoreAsString);
-                        playerRowRoundScoreTableCell.setTextColor(Color.RED);
-                    } else if (roundScore > 0) {
-                        playerRowRoundScoreTableCell.setText(String.format("+%s", roundScoreAsString));
-                        playerRowRoundScoreTableCell.setTextColor(0xFF00A800);
-                    } else {
-                        playerRowRoundScoreTableCell.setText(roundScoreAsString);
-                    }
-
-                    playerRowTotalScoreAfterRoundTableCell.setText(rounds.get(i).getTotalScoreAfterRound(j - 1));
-                }
-            }
-            row++;
-        }
-
-    }
-
-    private void updateScores(View promptsView) {
+    private boolean updateScores(View promptsView) {
         int[] playerScores = new int[]{R.id.editTextDialogUserInputPlayerOne, R.id.editTextDialogUserInputPlayerTwo, R.id.editTextDialogUserInputPlayerThree};
 
         Round round = new Round();
@@ -156,6 +189,10 @@ public class MainActivity extends AppCompatActivity {
             EditText userInput = promptsView
                     .findViewById(playerScores[i]);
             int playerScore = getRoundScore(userInput);
+            if (playerScore % 5 != 0) {
+                userInput.setBackgroundColor(Color.YELLOW);
+                return false;
+            }
             players.get(i).updateScore(playerScore);
             round.setRoundScore(i, playerScore);
             round.setTotalScoreAfterRound(i, players.get(i).getTotalScore());
@@ -167,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
         playerOneScore.setText(playerOne.getScoreAsString());
         playerTwoScore.setText(playerTwo.getScoreAsString());
         playerThreeScore.setText(playerThree.getScoreAsString());
+        return true;
     }
 
     private int getRoundScore(EditText userInput) {
