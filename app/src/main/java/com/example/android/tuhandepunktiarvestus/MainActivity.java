@@ -1,7 +1,7 @@
 package com.example.android.tuhandepunktiarvestus;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -181,10 +181,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private boolean updateScores(View promptsView) {
-        int[] playerScores = new int[]{R.id.editTextDialogUserInputPlayerOne, R.id.editTextDialogUserInputPlayerTwo, R.id.editTextDialogUserInputPlayerThree};
 
-        Round round = new Round();
+    private boolean validateInput(View promptsView, int[] playerScores) {
         for (int i = 0; i < playerScores.length; i++) {
             EditText userInput = promptsView
                     .findViewById(playerScores[i]);
@@ -193,6 +191,22 @@ public class MainActivity extends AppCompatActivity {
                 userInput.setBackgroundColor(Color.YELLOW);
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean updateScores(View promptsView) {
+        int[] playerScores = new int[]{R.id.editTextDialogUserInputPlayerOne, R.id.editTextDialogUserInputPlayerTwo, R.id.editTextDialogUserInputPlayerThree};
+
+        if(!validateInput(promptsView, playerScores)){
+            return false;
+        }
+
+        Round round = new Round();
+        for (int i = 0; i < playerScores.length; i++) {
+            EditText userInput = promptsView
+                    .findViewById(playerScores[i]);
+            int playerScore = getRoundScore(userInput);
             players.get(i).updateScore(playerScore);
             round.setRoundScore(i, playerScore);
             round.setTotalScoreAfterRound(i, players.get(i).getTotalScore());
