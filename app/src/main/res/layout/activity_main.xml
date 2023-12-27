@@ -96,13 +96,13 @@
             android:textSize="@dimen/totalScoreSize" />
     </LinearLayout>
 
+
     <ScrollView
         android:id="@+id/historyTableScrollable"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
-        android:paddingTop="12dp"
-        >
+        android:paddingTop="12dp">
 
         <TableLayout
             android:id="@+id/historyTable"
@@ -110,7 +110,6 @@
             android:layout_height="wrap_content">
         </TableLayout>
     </ScrollView>
-
 
     <Button
         android:id="@+id/buttonPrompt"

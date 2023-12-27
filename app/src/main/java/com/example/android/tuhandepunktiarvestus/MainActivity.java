@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView playerThreeScore;
 
 
-    private Player playerOne = new Player("Andres");
-    private Player playerTwo = new Player("Margit");
+    private Player playerOne = new Player("Margit");
+    private Player playerTwo = new Player("Andres");
     private Player playerThree = new Player("Martin");
 
     private ArrayList<Round> rounds = new ArrayList<>();
@@ -49,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
         // components from main.xml
         Button button = findViewById(R.id.buttonPrompt);
 
+        // Set player names on main view
+        TextView playerOneName = findViewById(R.id.player_1_name);
+        playerOneName.setText(playerOne.getName());
+        TextView playerTwoName = findViewById(R.id.player_2_name);
+        playerTwoName.setText(playerTwo.getName());
+        TextView playerThreeName = findViewById(R.id.player_3_name);
+        playerThreeName.setText(playerThree.getName());
+
         playerOneScore = findViewById(R.id.playerOneScore);
         playerTwoScore = findViewById(R.id.playerTwoScore);
         playerThreeScore = findViewById(R.id.playerThreeScore);
@@ -64,6 +72,14 @@ public class MainActivity extends AppCompatActivity {
                 // get prompts.xml view
                 LayoutInflater li = LayoutInflater.from(context);
                 final View promptsView = li.inflate(R.layout.prompts, null);
+
+                // Set player names on prompt view
+                TextView playerOneNamePrompt = promptsView.findViewById(R.id.labelPlayerOne);
+                playerOneNamePrompt.setText(playerOne.getName());
+                TextView playerTwoNamePrompt = promptsView.findViewById(R.id.labelPlayerTwo);
+                playerTwoNamePrompt.setText(playerTwo.getName());
+                TextView playerThreeNamePrompt = promptsView.findViewById(R.id.labelPlayerThree);
+                playerThreeNamePrompt.setText(playerThree.getName());
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context)
