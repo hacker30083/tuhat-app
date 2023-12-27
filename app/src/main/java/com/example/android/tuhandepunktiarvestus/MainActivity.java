@@ -172,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
             int identifier = getResources().getIdentifier(identifierString, "id", getPackageName());
             TextView nameCell = findViewById(identifier);
             if (player.getZeroPointRounds() == 2) {
-                nameCell.setBackgroundColor(Color.YELLOW);
+                nameCell.setBackgroundColor(getResources().getColor(R.color.text_warning_background));
             } else {
-                nameCell.setBackgroundColor(Color.WHITE);
+                nameCell.setBackgroundColor(getResources().getColor(R.color.text_background));
             }
             i++;
         }
