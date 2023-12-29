@@ -69,7 +69,7 @@
         >
 
         <TextView
-            android:id="@+id/playerOneScore"
+            android:id="@+id/player_1_score"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
             android:textSize="@dimen/totalScoreSize" />
 
         <TextView
-            android:id="@+id/playerTwoScore"
+            android:id="@+id/player_2_score"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -89,7 +89,7 @@
             android:textSize="@dimen/totalScoreSize" />
 
         <TextView
-            android:id="@+id/playerThreeScore"
+            android:id="@+id/player_3_score"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
