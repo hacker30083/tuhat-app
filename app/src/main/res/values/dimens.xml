@@ -6,4 +6,5 @@
     <dimen name="totalScoreSize">42sp</dimen>
     <dimen name="scoreAfterRoundTextSize">24sp</dimen>
     <dimen name="roundScoreITooltipTextSize">18sp</dimen>
+    <dimen name="screen_padding">16dp</dimen>
 </resources>
