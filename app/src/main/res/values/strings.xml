@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Tonn</string>
-    <string name="version_name" translatable="false">3.0.1-HOTFIX-1</string>
-    <string name="version_code">1</string>
+    <string name="version_name" translatable="false">3.0.1-HOTFIX-2</string>
+    <string name="version_code">2</string>
     <string name="button_text">Lisa voor</string>
     <string name="initialScore">-</string>
 </resources>
