@@ -34,6 +34,9 @@ public class GameData {
         if (customTitle != null && !customTitle.isEmpty()) {
             return customTitle;
         }
+        if (players == null || players.isEmpty()) {
+            return "Unnamed Game";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < players.size(); i++) {
             sb.append(players.get(i).getName());

@@ -4,12 +4,17 @@ android {
     namespace 'com.kaspar.tuhat'
     compileSdk 37
 
+    def stringsFile = file("src/main/res/values/strings.xml")
+    def xml = new groovy.xml.XmlParser().parse(stringsFile)
+    def verName = xml.string.find { it.'@name' == 'version_name' }.text()
+    def verCode = xml.string.find { it.'@name' == 'version_code' }.text().toInteger()
+
     defaultConfig {
         applicationId "com.kaspar.tuhat"
         minSdk 34
         targetSdk 37
-        versionCode 1
-        versionName "1.0"
+        versionCode verCode
+        versionName verName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
@@ -28,6 +33,10 @@ android {
                 'META-INF/INDEX.LIST'
             ]
         }
+    }
+
+    buildFeatures {
+        resValues true
     }
 }
 

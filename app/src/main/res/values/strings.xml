@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">Tonn v.3</string>
+    <string name="app_name">Tonn</string>
+    <string name="version_name" translatable="false">3.0.1-HOTFIX-1</string>
+    <string name="version_code">1</string>
     <string name="button_text">Lisa voor</string>
-    <string name="playerTwo">Margit</string>
-    <string name="playerOne">Andres</string>
-    <string name="playerThree">Martin</string>
     <string name="initialScore">-</string>
-    <string name="lastFiveRounds">Viimased 5 vooru</string>
 </resources>
