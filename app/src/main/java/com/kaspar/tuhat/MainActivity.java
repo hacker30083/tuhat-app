@@ -626,9 +626,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showInfoDialog() {
+        String version = getString(R.string.version_name);
         new MaterialAlertDialogBuilder(this)
-                .setTitle("Tonn v.3")
-                .setMessage("\"Tuhande\" punktiarvestus.\n\nVersion: 3.0\nDeveloped by Kaspar\n")
+                .setTitle(getString(R.string.app_name) + " v" + version)
+                .setMessage("\"Tuhande\" punktiarvestus.\n\nVersion: " + version + "\nDeveloped by Kaspar\n")
                 .setPositiveButton("OK", null)
                 .show();
     }

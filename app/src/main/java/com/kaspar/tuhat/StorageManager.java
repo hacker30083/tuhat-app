@@ -29,9 +29,18 @@ public class StorageManager {
             Type listType = new TypeToken<ArrayList<GameData>>() {}.getType();
             List<GameData> games = gson.fromJson(reader, listType);
             if (games == null) return new ArrayList<>();
-            Collections.sort(games, (g1, g2) -> Long.compare(g2.getLastModified(), g1.getLastModified()));
-            return games;
-        } catch (IOException e) {
+            
+            // Filter out any null entries that might have occurred due to corrupted JSON
+            List<GameData> validGames = new ArrayList<>();
+            for (GameData g : games) {
+                if (g != null && g.getId() != null) {
+                    validGames.add(g);
+                }
+            }
+            
+            Collections.sort(validGames, (g1, g2) -> Long.compare(g2.getLastModified(), g1.getLastModified()));
+            return validGames;
+        } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
