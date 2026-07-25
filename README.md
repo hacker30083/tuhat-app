@@ -1,7 +1,7 @@
 # "Tuhat" card game point tracker
 ---
 
-![[tuhat-app.png]]
+[![Demo Image](tuhat-app.png)](https://github.com/hacker30083/tuhat-app/releases)
 
 # Installation
 
