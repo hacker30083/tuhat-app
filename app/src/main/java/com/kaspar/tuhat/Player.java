@@ -25,13 +25,13 @@ public class Player {
         this.finished = false;
     }
 
-    int updateScore(int roundScore) {
+    int updateScore(int roundScore, int playerCount) {
         if (finished) return 0;
         int finalRoundScore = roundScore;
         
         if (roundScore == 0) {
             zeroPointRounds++;
-            if (zeroPointRounds >= 3) {
+            if (zeroPointRounds > playerCount) {
                 finalRoundScore = -100;
                 zeroPointRounds = 0; // Reset after penalty
             }
