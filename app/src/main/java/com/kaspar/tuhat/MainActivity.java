@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
                 int count = 3;
-                if (checkedId == R.id.btn_2_players) count = 2;
+                if (checkedId == R.id.btn_3_players) count = 3;
                 else if (checkedId == R.id.btn_4_players) count = 4;
                 updateSetupNamesInput(namesInputContainer, count);
             }
@@ -406,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
                 hint += " (120 to win)";
                 til.setHelperText("Must be 120 or 0");
                 til.setHelperTextColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#F44336"))); // Material Red
-            } else if (p.getZeroPointRounds() == 2) {
+            } else if (p.getZeroPointRounds() == players.size()) {
                 hint += " (-100?)";
                 til.setHelperText("Penalty if zero!");
                 til.setHelperTextColor(android.content.res.ColorStateList.valueOf(Color.parseColor("#FBC02D"))); // Material Yellow
@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
             et.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_SIGNED);
             et.setSingleLine(true);
             
-            if (p.getZeroPointRounds() == 2) {
+            if (p.getZeroPointRounds() >= players.size() - 1) {
                 et.setTextColor(Color.parseColor("#FBC02D"));
             }
 
@@ -510,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
                 continue;
             }
 
-            int actualScoreChange = p.updateScore(roundScores[i]);
+            int actualScoreChange = p.updateScore(roundScores[i], players.size());
             round.setRoundScore(i, actualScoreChange);
             round.setTotalScoreAfterRound(i, p.getTotalScore());
             playerScoresUI.get(i).setText(p.getScoreAsString());
@@ -588,7 +588,7 @@ public class MainActivity extends AppCompatActivity {
                 tv.setAlpha(0.3f);
                 scoreTv.setAlpha(0.3f);
                 tv.setPaintFlags(tv.getPaintFlags() | android.graphics.Paint.STRIKE_THRU_TEXT_FLAG);
-            } else if (players.get(i).getZeroPointRounds() == 2) {
+            } else if (players.get(i).getZeroPointRounds() >= players.size() - 1) {
                 tv.setTextColor(Color.parseColor("#FBC02D")); // Yellow for warning
                 tv.setAlpha(1.0f);
                 scoreTv.setAlpha(1.0f);
