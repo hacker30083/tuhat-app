@@ -421,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
             et.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_SIGNED);
             et.setSingleLine(true);
             
-            if (p.getZeroPointRounds() >= players.size() - 1) {
+            if (p.getZeroPointRounds() = players.size()) {
                 et.setTextColor(Color.parseColor("#FBC02D"));
             }
 
