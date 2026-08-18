@@ -12,7 +12,7 @@
 3. Follow on-screen instructions to install the application
 ## Building from source
 
-### 1. Get the clone from GitHub
+### 1. Get the code from GitHub
 ` git clone https://github.com/hacker30083/tuhat-app `
 ### 2. Build the application using Android Studio
 If you are unfamiliar with Android Studio follow the tutorial [here](https://developer.android.com/studio/run)
